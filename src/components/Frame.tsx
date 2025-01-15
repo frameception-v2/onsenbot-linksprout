@@ -165,6 +165,37 @@ export default function Frame(
     return <div>Loading...</div>;
   }
 
+  const socialLinks = [
+    {
+      name: "Farcaster",
+      url: "https://warpcast.com/onsenbot",
+      icon: "🌐"
+    },
+    {
+      name: "GitHub",
+      url: "https://github.com/onsenbot",
+      icon: "💻"
+    }
+  ];
+
+  // Example recent links - these could be fetched from an API in a real implementation
+  const recentLinks = [
+    {
+      name: "My Latest Blog Post",
+      url: "https://example.com/blog",
+      icon: "📝"
+    },
+    {
+      name: "Cool Project",
+      url: "https://example.com/project",
+      icon: "🚀"
+    }
+  ];
+
+  const handleLinkClick = useCallback((url: string) => {
+    sdk.actions.openUrl(url);
+  }, []);
+
   return (
     <div
       style={{
@@ -176,6 +207,40 @@ export default function Frame(
     >
       <div className="w-[300px] mx-auto py-2 px-2">
         <h1 className="text-2xl font-bold text-center mb-4">{title}</h1>
+        
+        <div className="space-y-2">
+          <h2 className="text-lg font-semibold mb-2">Social Links</h2>
+          {socialLinks.map((link, index) => (
+            <PurpleButton
+              key={index}
+              onClick={() => handleLinkClick(link.url)}
+              className="w-full flex items-center justify-between"
+            >
+              <span>{link.icon} {link.name}</span>
+              <span>→</span>
+            </PurpleButton>
+          ))}
+        </div>
+
+        <div className="mt-4 space-y-2">
+          <h2 className="text-lg font-semibold mb-2">Recent Links</h2>
+          {recentLinks.map((link, index) => (
+            <PurpleButton
+              key={index}
+              onClick={() => handleLinkClick(link.url)}
+              className="w-full flex items-center justify-between"
+            >
+              <span>{link.icon} {link.name}</span>
+              <span>→</span>
+            </PurpleButton>
+          ))}
+        </div>
+
+        {context && (
+          <div className="mt-4 text-center text-sm text-neutral-500">
+            Frame ID: {context.frameId}
+          </div>
+        )}
       </div>
     </div>
   );
